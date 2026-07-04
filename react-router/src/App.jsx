@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { PodcastProvider } from "./context/PodcastContext";
 import { fetchPata } from "./api/fetchPata";
 import { genres } from "./data";
-import Header from "./components/Header";
-import SearchBar from "./components/SearchBar";
-import SortSelect from "./components/SortSelect";
-import GenreFilter from "./components/GenreFilter";
-import PodcastGrid from "./components/PodcastGrid";
-import Pagination from "./components/Pagination";
+import Header from "./components/UI/Header";
+import SearchBar from "./components/Filters/SearchBar";
+import SortSelect from "./components/Filters/SortSelect";
+import GenreFilter from "./components/Filters/GenreFilter";
+import PodcastGrid from "./components/Podcasts/PodcastGrid";
+import Pagination from "./components/UI/Pagination";
 import styles from "./App.module.css";
 
 /**
