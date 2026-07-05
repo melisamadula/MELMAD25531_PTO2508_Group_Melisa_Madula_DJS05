@@ -46,6 +46,10 @@ function ShowDetail() {
     if (error) return <div className={styles.centerText}>Error: {error}</div>;
     if (!show) return <div className={styles.centerText}>Show not found.</div>;
 
+    const totalSeasons = show.seasons?.length || 0;
+    const totalEpisodes =
+        show.seasons?.reduce((sum, s) => sum + (s.episodes?.length || 0), 0) || 0;
+
     const currentSeason = show.seasons[selectedSeason];
 
     return (
@@ -60,6 +64,7 @@ function ShowDetail() {
                     <h1>{show.title}</h1>
                     <p className={styles.description}>{show.description}</p>
                     <p className={styles.metaText}><strong>Last Updated:</strong> {new Date(show.updated).toLocaleDateString()}</p>
+                    <p className={styles.metaText}><strong>Total Seasons:</strong> {totalSeasons} &nbsp; <strong>Total Episodes:</strong> {totalEpisodes}</p>
                     <div className={styles.genres}>
                         {show.genres?.map((genreId) => {
                             const genreName =
