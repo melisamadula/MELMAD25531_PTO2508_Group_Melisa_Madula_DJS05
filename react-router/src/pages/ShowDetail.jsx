@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import styles from "./Home.module.css";
 
+/**
+ * Mapping of genre IDs to their respective readable titles.
+ * @type {Object<number, string>}
+ */
 const GENRES = {
     1: "Personal Growth",
     2: "Investigative Journalism",
@@ -14,13 +18,53 @@ const GENRES = {
     9: "Kids and Family",
 };
 
+/**
+ * An individual podcast episode.
+ * @typedef {Object} Episode
+ * @property {string|number} id - Unique identifier for the episode.
+ * @property {number} episode - The sequential number of the episode.
+ * @property {string} title - The title of the episode.
+ * @property {string} description - Summary of what happens in the episode.
+ */
+
+/**
+ * A seasonal group of episodes.
+ * @typedef {Object} Season
+ * @property {number} season - The sequential number of the season.
+ * @property {string} title - The title of the season.
+ * @property {string} [image] - Optional URL string for season-specific cover artwork.
+ * @property {Episode[]} episodes - List of episodes belonging to this season.
+ */
+/**
+ * The deep schema of a specific podcast show.
+ * @typedef {Object} PodcastShow
+ * @property {string} id - Unique identifier for the show.
+ * @property {string} title - Title of the podcast.
+ * @property {string} description - Detailed overview of the podcast series.
+ * @property {string} image - URL string for the primary podcast cover artwork.
+ * @property {string} updated - ISO date string indicating the last update time.
+ * @property {(number|string)} genres - Array of genre IDs or string names.
+ * @property {Season[]} seasons - Nested list of seasons available.
+ */
+
+/**
+ * ShowDetail component displays explicit details, seasons, and episodes for a chosen podcast.
+ * It parses the URL parameters for the target ID, issues a network fetch, reads
+ * state history to enable smooth back-navigation filters, and handles internal 
+ * conditional view logic for load states and network errors.
+ *
+ * @component
+ * @returns {JSX.Element} The detailed layout containing information about the show, seasonal selection dropdown, and structural list of nested episodes.
+ */
 function ShowDetail() {
     const { id } = useParams();
     const location = useLocation();
 
+    /** @type {[PodcastShow|null, React.Dispatch<React.SetStateAction<PodcastShow|null>>]} */
     const [show, setShow] = useState(null);
     const [selectedSeason, setSelectedSeason] = useState(0);
     const [loading, setLoading] = useState(true);
+    /** @type {[string|null, React.Dispatch<React.SetStateAction<string|null>>]} */
     const [error, setError] = useState(null);
 
     const previousSearchTerm = location.state?.searchTerm || '';

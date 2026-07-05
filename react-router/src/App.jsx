@@ -12,6 +12,17 @@ import Pagination from "./components/UI/Pagination";
 import styles from "./App.module.css";
 import ShowDetail from "./pages/ShowDetail";
 
+/**
+ * HomePage component acts as the foundational sub-route dashboard layout.
+ * It houses global filters, async data state banners, and structured podcast lists.
+ *
+ * @component
+ * @param {Object} props - Component properties.
+ * @param {Array} props.podcasts - Complete list of loaded raw podcast shows from the API hook.
+ * @param {boolean} props.loading - System-wide evaluation indicator for API operations.
+ * @param {string|null} props.error - Relayed structural message string received upon a data capture failure.
+ * @returns {JSX.Element} The aggregated home screen landing view.
+ */
 function HomePage({ podcasts, loading, error }) {
   return (
     <>
@@ -50,6 +61,14 @@ function HomePage({ podcasts, loading, error }) {
   );
 }
 
+/**
+ * App component serves as the application entry point.
+ * It initializes client-side network fetching, orchestrates React Router navigation schemas,
+ * and sets up the global `PodcastProvider` state encapsulation mechanism.
+ *
+ * @component
+ * @returns {JSX.Element} Root UI application router wrapping global context.
+ */
 export default function App() {
   const [podcasts, setPodcasts] = useState([]);
   const [loading, setLoading] = useState(true);

@@ -1,11 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+/**
+ * Simplified representation of a podcast show object returned by the API.
+ * @typedef {Object} ShowPreview
+ * @property {string} id - Unique identifier for the show.
+ * @property {string} title - The display name/title of the podcast.
+ * @property {string} image - URL string pointing to the podcast cover artwork image.
+ */
+
+/**
+ * Home component serves as the primary catalog landing page for the application.
+ * It fetches a list of available podcasts, handles localized text filtering, 
+ * and retains search history across React Router history states.
+ *
+ * @component
+ * @returns {JSX.Element} A layout containing a search filter input and a grid of filtered podcast cards.
+ */
 function Home() {
     const location = useLocation();
 
     // Restore search term if navigating back from a detail page
     const [searchTerm, setSearchTerm] = useState(location.state?.searchTerm || '');
+
+    /** @type {[ShowPreview[], React.Dispatch<React.SetStateAction<ShowPreview[]>>]} */
     const [shows, setShows] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -19,6 +37,10 @@ function Home() {
             .catch(() => setLoading(false));
     }, []);
 
+    /**
+     * Filters the base show array based on case-insensitive matches against `searchTerm`.
+     * @type {ShowPreview[]}
+     */
     const filteredShows = shows.filter(show =>
         show.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
