@@ -61,9 +61,17 @@ function ShowDetail() {
                     <p className={styles.description}>{show.description}</p>
                     <p className={styles.metaText}><strong>Last Updated:</strong> {new Date(show.updated).toLocaleDateString()}</p>
                     <div className={styles.genres}>
-                        {show.genres?.map((genreId) => (
-                            <span key={genreId} className={styles.genreTag}>{GENRES[genreId]}</span>
-                        ))}
+                        {show.genres?.map((genreId) => {
+                            const genreName =
+                                typeof genreId === "string"
+                                    ? genreId
+                                    : GENRES[genreId] || `Genre ${genreId}`;
+                            return (
+                                <span key={genreId} className={styles.genreTag}>
+                                    {genreName}
+                                </span>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
